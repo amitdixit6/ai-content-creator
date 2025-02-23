@@ -18,7 +18,7 @@ function App() {
       const data = await response.json();
       setContent(data.content);
     } catch (error) {
-      setContent("Error fetching content. Please try again!");
+      setContent("❌ Error fetching content. Please try again!");
     }
     setLoading(false);
   };
