@@ -1,23 +1,27 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-class ContentRequest(BaseModel):
-    topic: str
-    content_type: str
+# ✅ CORS Middleware Fix (Backend se frontend request allow)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Agar sirf Vercel allow karna ho toh: ["https://ai-content-creator-iota.vercel.app"]
+    allow_credentials=True,
+    allow_methods=["*"],  # POST, GET sab allow hoga
+    allow_headers=["*"],  
+)
 
 @app.get("/")
 def home():
     return {"message": "Backend is working perfectly!"}
 
 @app.post("/generate")
-def generate_content(request: ContentRequest):
-    if request.content_type == "blog":
-        content = f"Generated blog about {request.topic}"
-    elif request.content_type == "youtube_script":
-        content = f"Generated YouTube script about {request.topic}"
-    else:
-        raise HTTPException(status_code=400, detail="Invalid content type")
+def generate_content(data: dict):
+    topic = data.get("topic", "No topic provided")
+    content_type = data.get("content_type", "blog")
     
-    return {"content": content}
+    # Dummy AI response (replace with OpenAI API call if needed)
+    generated_content = f"Generated {content_type} about {topic}"
+    
+    return {"content": generated_content}
