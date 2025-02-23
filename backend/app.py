@@ -1,29 +1,23 @@
 from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
 app = FastAPI()
 
-# ✅ CORS Middleware (Fix Cross-Origin Issues)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # 🟢 Allow All Origins
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+class ContentRequest(BaseModel):
+    topic: str
+    content_type: str
 
 @app.get("/")
 def home():
     return {"message": "Backend is working perfectly!"}
 
-# ✅ Fix: Add the `/generate` route
 @app.post("/generate")
-def generate_content(request_data: dict):
-    topic = request_data.get("topic", "AI")
-    content_type = request_data.get("content_type", "blog")
-
-    # Dummy content generation (Replace with AI logic if needed)
-    generated_text = f"Generated {content_type} about {topic}"
-
-    return {"content": generated_text}
-
+def generate_content(request: ContentRequest):
+    if request.content_type == "blog":
+        content = f"Generated blog about {request.topic}"
+    elif request.content_type == "youtube_script":
+        content = f"Generated YouTube script about {request.topic}"
+    else:
+        raise HTTPException(status_code=400, detail="Invalid content type")
+    
+    return {"content": content}
