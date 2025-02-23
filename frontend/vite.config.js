@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     headers: {
-      "Content-Security-Policy": "font-src 'self' https: data:;",
+      "Content-Security-Policy": "default-src 'self' https://ai-content-creator-w4py.onrender.com; connect-src 'self' https://ai-content-creator-w4py.onrender.com; media-src 'self' data:;",
     },
   },
 })

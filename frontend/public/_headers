@@ -1,0 +1,3 @@
+/*
+  Access-Control-Allow-Origin: *
+  Content-Security-Policy: default-src 'self' https://ai-content-creator-w4py.onrender.com; connect-src 'self' https://ai-content-creator-w4py.onrender.com; media-src 'self' data:;
