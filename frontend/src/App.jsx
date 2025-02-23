@@ -18,6 +18,7 @@ function App() {
       const data = await response.json();
       setContent(data.content);
     } catch (error) {
+      console.error("Error fetching content:", error);
       setContent("❌ Error fetching content. Please try again!");
     }
     setLoading(false);
@@ -49,7 +50,7 @@ function App() {
         className="bg-blue-500 text-white px-4 py-2 rounded"
         disabled={loading}
       >
-        {loading ? "Generating..." : "Generate Content"}
+        {loading ? "⏳ Generating..." : "Generate Content"}
       </button>
 
       <div className="mt-4 p-4 bg-white border w-80 text-sm">
