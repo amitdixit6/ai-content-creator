@@ -10,7 +10,7 @@ function App() {
     setLoading(true);
     setContent(""); // Clear old content
     try {
-      const response = await fetch("http://127.0.0.1:8000/generate", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ topic, content_type: type }),
