@@ -10,10 +10,13 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       }
-    },
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Content-Security-Policy": "default-src * 'self' 'unsafe-inline' 'unsafe-eval' data:; connect-src * 'self' https://ai-content-creator-w4py.onrender.com;"
+    }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: undefined
+      }
     }
   }
 });
