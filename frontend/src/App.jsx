@@ -8,7 +8,7 @@ function App() {
 
   const generateContent = async () => {
     setLoading(true);
-    setContent(""); // Clear old content
+    setContent(""); // Old content clear karein
     try {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/generate`, {
         method: "POST",
@@ -16,12 +16,9 @@ function App() {
         body: JSON.stringify({ topic, content_type: type }),
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
       const data = await response.json();
-      setContent(data.content);
+      setContent(data.content); // ✅ AI-generated content show ho frontend pe
+
     } catch (error) {
       console.error("Error fetching content:", error);
       setContent("❌ Error fetching content. Please try again!");
@@ -32,7 +29,7 @@ function App() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
       <h1 className="text-2xl font-bold mb-4">🚀 AI Content Generator</h1>
-
+      
       <input
         className="border p-2 w-80 mb-2"
         type="text"
@@ -40,18 +37,18 @@ function App() {
         value={topic}
         onChange={(e) => setTopic(e.target.value)}
       />
-
-      <select
-        className="border p-2 w-80 mb-2"
-        value={type}
+      
+      <select 
+        className="border p-2 w-80 mb-2" 
+        value={type} 
         onChange={(e) => setType(e.target.value)}
       >
         <option value="blog">📝 Blog</option>
         <option value="youtube_script">🎬 YouTube Script</option>
       </select>
-
-      <button
-        onClick={generateContent}
+      
+      <button 
+        onClick={generateContent} 
         className="bg-blue-500 text-white px-4 py-2 rounded"
         disabled={loading}
       >
