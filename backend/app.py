@@ -1,27 +1,26 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
 app = FastAPI()
 
-# ✅ CORS Middleware Fix (Backend se frontend request allow)
+# ✅ CORS Middleware Add Karo
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Agar sirf Vercel allow karna ho toh: ["https://ai-content-creator-iota.vercel.app"]
+    allow_origins=["*"],  # Agar specific domain dena ho to ["https://ai-content-creator-iota.vercel.app"]
     allow_credentials=True,
-    allow_methods=["*"],  # POST, GET sab allow hoga
-    allow_headers=["*"],  
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
+class ContentRequest(BaseModel):
+    topic: str
+    content_type: str
 
 @app.get("/")
 def home():
     return {"message": "Backend is working perfectly!"}
 
 @app.post("/generate")
-def generate_content(data: dict):
-    topic = data.get("topic", "No topic provided")
-    content_type = data.get("content_type", "blog")
-    
-    # Dummy AI response (replace with OpenAI API call if needed)
-    generated_content = f"Generated {content_type} about {topic}"
-    
-    return {"content": generated_content}
+def generate_content(request: ContentRequest):
+    return {"content": f"Generated {request.content_type} about {request.topic}"}
