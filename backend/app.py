@@ -1,26 +1,23 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 
 app = FastAPI()
 
-# ✅ CORS Middleware Add Karo
+# Allow frontend requests
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Change karo if needed: ["https://ai-content-creator-iota.vercel.app"]
+    allow_origins=["*"],  # Allow all origins
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
 )
-
-class ContentRequest(BaseModel):
-    topic: str
-    content_type: str
 
 @app.get("/")
 def home():
     return {"message": "Backend is working perfectly!"}
 
 @app.post("/generate")
-def generate_content(request: ContentRequest):
-    return {"content": f"Generated {request.content_type} about {request.topic}"}
+def generate_content(data: dict):
+    topic = data.get("topic", "Default Topic")
+    content_type = data.get("content_type", "blog")
+    return {"content": f"Generated {content_type} about {topic}"}
