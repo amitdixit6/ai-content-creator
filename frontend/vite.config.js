@@ -6,13 +6,13 @@ export default defineConfig({
   server: {
     proxy: {
       '/generate': {
-        target: 'https://ai-content-creator-w4py.onrender.com',
+        target: import.meta.env.VITE_BACKEND_URL,
         changeOrigin: true,
         secure: false,
       }
     }
   },
   headers: {
-    "Content-Security-Policy": "connect-src 'self' https://ai-content-creator-w4py.onrender.com;"
+    "Content-Security-Policy": "connect-src 'self' " + import.meta.env.VITE_BACKEND_URL + ";"
   }
 });
