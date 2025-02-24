@@ -1,14 +1,19 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
+// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
   server: {
+    proxy: {
+      "/generate": {
+        target: process.env.VITE_BACKEND_URL,
+        changeOrigin: true,
+        secure: false,
+      },
+    },
     headers: {
-      "Content-Security-Policy": "connect-src 'self' https://ai-content-creator-w4py.onrender.com;"
-    }
+      "Content-Security-Policy": "default-src *; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src *; img-src * data:; style-src * 'unsafe-inline'; font-src * data:;",
+    },
   },
-  define: {
-    "process.env": process.env
-  }
-});
+})
