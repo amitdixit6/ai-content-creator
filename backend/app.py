@@ -7,7 +7,7 @@ app = FastAPI()
 # ✅ CORS Middleware Add Karo
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Agar specific domain dena ho to ["https://ai-content-creator-iota.vercel.app"]
+    allow_origins=["*"],  # Change karo if needed: ["https://ai-content-creator-iota.vercel.app"]
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
